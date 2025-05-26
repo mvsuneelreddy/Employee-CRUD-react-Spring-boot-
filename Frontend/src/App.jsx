@@ -3,9 +3,9 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './pages/header/Header';
 import { Route, Router, Routes } from 'react-router-dom';
-import Dashboard from './pages/dashboard/dashboard';
 import Nomatch from './pages/noMatch/Nomatch';
 import Postuser from './pages/employee/Postuser';
+import Dashboard from './pages/dashboard/Dashboard';
 
 function App() {
 
