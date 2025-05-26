@@ -39,7 +39,7 @@ function Postuser(){
         .catch(error => {
             console.error("Error saving employee" , error);
         });
-        navigate("/")
+
         
     };
 
