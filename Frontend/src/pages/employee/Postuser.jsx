@@ -1,6 +1,8 @@
 import { useState } from "react"
 import "./Postuser.css"
 import { Button, Form } from "react-bootstrap"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Postuser(){
 
@@ -11,7 +13,9 @@ function Postuser(){
         phone : "",
         department : ""
 
-    })
+    });
+
+    const navigate =useNavigate();
 
     const handleInputChange = (e) => {
         const { name,value} =e.target;
@@ -21,12 +25,29 @@ function Postuser(){
         });
     };
 
+    
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+
+        axios.post('http://localhost:8080/api/employee' , formdata)
+        .then(response => {
+            console.log("employee created" , response.data);
+            navigate("/");
+        })
+
+        .catch(error => {
+            console.error("Error saving employee" , error);
+        });
+        navigate("/")
+        
+    };
 
     return (
         <>
             <div className="center-form">
                 <h1> Post New Employee </h1>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formbasicName">
                         <Form.Control
                         type="text"
