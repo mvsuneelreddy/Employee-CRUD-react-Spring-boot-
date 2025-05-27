@@ -8,7 +8,7 @@ function Dashboard(){
     const [employees,setEmployees ] =useState([]);
 
     useEffect( () => {
-        axios.get("http://localhost:8080/api/employees")
+        axios.get('http://localhost:8080/api/employees')
         .then(response => {
             console.log("received",response.data);
             setEmployees(response.data);
@@ -18,10 +18,20 @@ function Dashboard(){
     });
         
     } ,[]);
+
+
+    const handleDelete = (id) =>{
+        axios.delete(`http://localhost:8080/api/employee/${id}`)
+        .then(() =>{
+            setEmployees(prev => prev.filter(emp => emp.id !=id));
+        })
+        .catch(error =>{
+            console.log("Error deleting employee ",error)
+        });
+    };
     
     return(
         <>
-            
             <Container className="mt-5"> 
                 <Row> 
                     <Col>
@@ -33,6 +43,7 @@ function Dashboard(){
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Department</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +56,7 @@ function Dashboard(){
                                     <td>{employee.department}</td>
                                     <td>
                                         <Button variant="outline-secondary"> Update </Button>
-                                        <Button variant="outline-danger"> Delete </Button>
+                                        <Button variant="outline-danger" onClick={() => handleDelete(employee.id)}> Delete </Button>
                                     </td>
                                 </tr>
                             )})}
