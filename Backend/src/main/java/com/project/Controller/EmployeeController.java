@@ -39,4 +39,23 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<?> getempybyId(@PathVariable Long id){
+        Employee employee =emloyeeservice.getElementbyId(id);
+        if (employee==null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(employee);
+    }
+
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id , @RequestBody Employee employee){
+        try{
+            emloyeeservice.updateEmployee(id,employee);
+            return new ResponseEntity<>("Employee with id " + id + " Updated sucessfully " , HttpStatus.OK);
+        }
+        catch (EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

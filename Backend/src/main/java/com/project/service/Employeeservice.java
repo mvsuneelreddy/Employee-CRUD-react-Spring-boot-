@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class Employeeservice {
@@ -30,4 +31,15 @@ public class Employeeservice {
     }
 
 
+    public Employee getElementbyId(Long id) {
+        return employeerepo.findById(id).orElse(null);
+    }
+
+    public void updateEmployee(Long id, Employee employee) {
+        if (!employeerepo.existsById(id)){
+            throw new EntityNotFoundException("Employee with id " + id + " not found");
+        }
+        employee.setId(id);
+        employeerepo.save(employee);
+    }
 }

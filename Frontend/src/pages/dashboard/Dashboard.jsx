@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 
 function Dashboard(){
 
     const [employees,setEmployees ] =useState([]);
+    const navigate =useNavigate();
 
     useEffect( () => {
-        axios.get('http://localhost:8080/api/employees')
+        axios.get(`http://localhost:8080/api/employees`)
         .then(response => {
             console.log("received",response.data);
             setEmployees(response.data);
@@ -20,14 +22,19 @@ function Dashboard(){
     } ,[]);
 
 
+
     const handleDelete = (id) =>{
         axios.delete(`http://localhost:8080/api/employee/${id}`)
-        .then(() =>{
+        .then(() => {
             setEmployees(prev => prev.filter(emp => emp.id !=id));
         })
         .catch(error =>{
             console.log("Error deleting employee ",error)
         });
+    };
+
+    const handleUpdate = (id) =>{
+        navigate(`/employee/${id}`);
     };
     
     return(
@@ -55,7 +62,7 @@ function Dashboard(){
                                     <td>{employee.phone}</td>
                                     <td>{employee.department}</td>
                                     <td>
-                                        <Button variant="outline-secondary"> Update </Button>
+                                        <Button variant="outline-secondary" onClick={() => handleUpdate(employee.id)}> Update </Button>
                                         <Button variant="outline-danger" onClick={() => handleDelete(employee.id)}> Delete </Button>
                                     </td>
                                 </tr>
